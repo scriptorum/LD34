@@ -5,6 +5,7 @@ using System.Collections;
 // It's not so much representing the land as it is a harness for correctly positioning the plant on the planet
 public class Plot : MonoBehaviour
 {
+	// These things are really configuration elements that should be passed to Biomass from the level creator
 	public static float HEALTH_GAIN = 45;
 	public static float MAX_HEALTH = 150;
 	public static float BIRTH_THRESHOLD = 120;
@@ -27,6 +28,9 @@ public class Plot : MonoBehaviour
 
 	void Update()
 	{
+		if(biomass == null)
+			return;
+		
 		float modifiers = 1.0f;
 
 		health = Mathf.Min(MAX_HEALTH, health + HEALTH_GAIN * Time.deltaTime * modifiers);
