@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour
 	void Start () 
 	{
 		biomass.addPlant(0);
-		biomass.addPlant(10);
-		biomass.addPlant(18);
+//		biomass.addPlant(10);
+//		biomass.addPlant(18);
 	}
 }

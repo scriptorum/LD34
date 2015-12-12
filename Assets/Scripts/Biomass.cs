@@ -4,15 +4,15 @@ using System.Collections.Generic;
 
 public class Biomass : MonoBehaviour {
 	public int size = 32;
-	public PlantView plantPrefab;
+	public Plot plotPrefab;
 
-	private PlantView[] plants;
+	private Plot[] plants;
 
 	void Awake () {
-		plants = new PlantView[size];
+		plants = new Plot[size];
 	}
 
-	public bool spawn(PlantView spawner)
+	public bool spawn(Plot spawner)
 	{
 		if(spawner.index < 0 || spawner.index >= size)
 			return false;
@@ -24,13 +24,17 @@ public class Biomass : MonoBehaviour {
 		if(plots.Count == 0)
 			return false;
 
+		var nextIndex = -1;
 		if(plots.Count == 1)
-		{
-			addPlant(plots[0]);
-			return true;
-		}
+			nextIndex = plots[0];
 
-		addPlant(plots[Random.Range(0, plots.Count)]);
+		else nextIndex = plots[Random.Range(0, plots.Count)];
+
+		if(nextIndex == spawner.index)
+			throw new UnityException("Attempt to respawn plant at " + nextIndex);
+
+		addPlant(nextIndex);
+
 		return true;
 	}
 
@@ -58,6 +62,6 @@ public class Biomass : MonoBehaviour {
 		if(plants[index] != null)
 			throw new UnityException("Cannot add a second plant to index " + index);
 
-		plants[index] = PlantView.create(this, index);
+		plants[index] = Plot.create(this, index);
 	}
 }
