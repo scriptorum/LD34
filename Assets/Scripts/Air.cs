@@ -11,10 +11,17 @@ public class Air : MonoBehaviour {
 
 	void Start () 
 	{
-
+		addAirborneObject(cloudPrefab, 230);
+		addAirborneObject(rainPrefab, 30);
+		addAirborneObject(rainPrefab, 160);
 	}
 
 	void Update () {
 	
+	}
+
+	public void addAirborneObject(AirborneObject prefab, float rotation)
+	{
+		AirborneObject.Create(this, prefab, rotation);
 	}
 }
