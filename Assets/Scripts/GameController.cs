@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour
 	[Header("Prefabs")]
 	public AirObject cloudPrefab;
 	public AirObject rainPrefab;
+	public AirObject snowPrefab;
 	public LandObject sunflowerPrefab;
 
 	private Biomass biomass;
@@ -25,7 +26,7 @@ public class GameController : MonoBehaviour
 		biomass.addObject(sunflowerPrefab, 18);
 
 		airspace.addObject(cloudPrefab, 230);
-		airspace.addObject(rainPrefab, 30);
+		airspace.addObject(snowPrefab, 30);
 		airspace.addObject(rainPrefab, 160);
 	}
 }
