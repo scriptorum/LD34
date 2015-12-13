@@ -9,12 +9,16 @@ public class Hud : MonoBehaviour
 	public float target = 0;
 	public float elapsed = 0;
 	public bool running = false;
+
 	private Text timerText;
+	private Text messageText;
 
 	void Awake()
 	{
 		string path = transform.GetFullPath();
 		timerText = GameObject.Find(path + "/Timer").GetComponent<Text>();
+		messageText = GameObject.Find(path + "/Message").GetComponent<Text>();
+		reset();
 	}
 
 	void Update()
@@ -23,7 +27,10 @@ public class Hud : MonoBehaviour
 			return;
 		
 		elapsed += Time.deltaTime;
-		updateHud();
+		updateTimerText();
+
+		if(elapsed > target)
+			setMessage("Out of time! Hit R to restart level.");
 	}
 
 	public void start(float time)
@@ -31,7 +38,8 @@ public class Hud : MonoBehaviour
 		target = time;
 		elapsed = 0;
 		running = true;
-		updateHud();
+		updateTimerText();
+		clearMessage();
 	}
 
 	public void reset()
@@ -39,12 +47,18 @@ public class Hud : MonoBehaviour
 		elapsed = 0;
 		target = 0;
 		running = false;
-		updateHud();
+		updateTimerText();
+		clearMessage();
 	}
 
-	public void updateHud()
+	public void clearMessage()
 	{
-		updateTimerText();
+		setMessage("");
+	}
+
+	public void setMessage(string msg)
+	{
+		messageText.text = msg;
 	}
 
 	private void updateTimerText()
