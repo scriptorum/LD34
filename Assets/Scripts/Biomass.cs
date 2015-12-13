@@ -2,14 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Biomass : MonoBehaviour {
+public class Biomass : MonoBehaviour
+{
 	public int size = 32;
 	public Plot plotPrefab;
 
 	private Plot[] plants;
+	public Air air;
 
-	void Awake () {
+	void Awake()
+	{
 		plants = new Plot[size];
+		air = (Air) GameObject.FindGameObjectWithTag("air").GetComponent<Air>();
 	}
 
 	public bool spawn(Plot spawner)
@@ -27,8 +31,8 @@ public class Biomass : MonoBehaviour {
 		var nextIndex = -1;
 		if(plots.Count == 1)
 			nextIndex = plots[0];
-
-		else nextIndex = plots[Random.Range(0, plots.Count)];
+		else
+			nextIndex = plots[Random.Range(0, plots.Count)];
 
 		if(nextIndex == spawner.index)
 			throw new UnityException("Attempt to respawn plant at " + nextIndex);

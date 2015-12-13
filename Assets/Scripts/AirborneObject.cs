@@ -1,26 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AirborneObject : MonoBehaviour {
-	public int size = 1;
-	private Air air;
+public class AirborneObject : MonoBehaviour
+{
+	public float sizeInDegrees = 11.25f;	// If 32 plots, each is 11.25 degrees (360/32)
+	public float angle = 0;
+	public bool isWet = false;
+	public bool isDark = false;
 
-	// Use this for initialization
-	void Start () {
-		Debug.Log("Shut up never warning" + air);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+//	private Air air;
 
 	public static AirborneObject Create(Air air, AirborneObject prefab, float rotation)
 	{
-		AirborneObject ab  = (AirborneObject) Instantiate(prefab, air.transform.position, air.transform.rotation);
-		ab.air = air;
-		ab.transform.parent = air.transform;
-		ab.transform.Rotate(0, 0, rotation);
-		return ab;
+		AirborneObject ao = (AirborneObject) Instantiate(prefab, air.transform.position, air.transform.rotation);
+//		ao.air = air;
+		ao.transform.parent = air.transform;
+		ao.transform.Rotate(0, 0, rotation);
+		ao.angle = rotation;
+		return ao;
 	}
 }
