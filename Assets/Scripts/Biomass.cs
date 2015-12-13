@@ -5,39 +5,36 @@ using System.Collections.Generic;
 public class Biomass : MonoBehaviour
 {
 	public int size = 32;
-	public Plot plotPrefab;
 
-	private Plot[] plants;
-	public Air air;
+	private LandObject[] plantObjects;
 
 	void Awake()
 	{
-		plants = new Plot[size];
-		air = (Air) GameObject.FindGameObjectWithTag("air").GetComponent<Air>();
+		plantObjects = new LandObject[size];
 	}
 
-	public bool spawn(Plot spawner)
+	public bool propogate(LandObject lo)
 	{
-		if(spawner.index < 0 || spawner.index >= size)
+		if(lo.index < 0 || lo.index >= size)
 			return false;
 
-		if(plants[spawner.index] == null)
+		if(plantObjects[lo.index] == null)
 			return false;
 
-		List<int> plots = getNeighbors(spawner.index);
-		if(plots.Count == 0)
+		List<int> neighbors = getNeighbors(lo.index);
+		if(neighbors.Count == 0)
 			return false;
 
 		var nextIndex = -1;
-		if(plots.Count == 1)
-			nextIndex = plots[0];
+		if(neighbors.Count == 1)
+			nextIndex = neighbors[0];
 		else
-			nextIndex = plots[Random.Range(0, plots.Count)];
+			nextIndex = neighbors[Random.Range(0, neighbors.Count)];
 
-		if(nextIndex == spawner.index)
+		if(nextIndex == lo.index)
 			throw new UnityException("Attempt to respawn plant at " + nextIndex);
 
-		addPlant(nextIndex);
+		addObject(lo.prefab, nextIndex);
 
 		return true;
 	}
@@ -49,23 +46,23 @@ public class Biomass : MonoBehaviour
 		int leftIndex = index - 1;
 		if(leftIndex < 0)
 			leftIndex = size - 1;
-		if((plants[leftIndex] == null) == empty)
+		if((plantObjects[leftIndex] == null) == empty)
 			result.Add(leftIndex);
 
 		int rightIndex = index + 1;
 		if(rightIndex >= size)
 			rightIndex = 0;
-		if((plants[rightIndex] == null) == empty)
+		if((plantObjects[rightIndex] == null) == empty)
 			result.Add(rightIndex);
 
 		return result;
 	}
 
-	public void addPlant(int index)
+	public void addObject(LandObject prefab, int index)
 	{
-		if(plants[index] != null)
+		if(plantObjects[index] != null)
 			throw new UnityException("Cannot add a second plant to index " + index);
 
-		plants[index] = Plot.create(this, index);
+		plantObjects[index] = LandObject.create(this, prefab, index);
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Intro : MonoBehaviour
+public class MainMenuController : MonoBehaviour
 {
 	private static float SMALL = 1.5f;
 	private static float LARGE = 1.51f;

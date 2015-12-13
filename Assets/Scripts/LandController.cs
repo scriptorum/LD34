@@ -2,7 +2,7 @@
 using System.Collections;
 using Spewnity;
 
-public class LandView : MonoBehaviour {
+public class LandController : MonoBehaviour {
 	public float rotateSpeed = 20.0f;
 
 	void Awake () 
