@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Spewnity;
 
 public class GameController : MonoBehaviour 
@@ -8,17 +9,26 @@ public class GameController : MonoBehaviour
 	public AirObject tornadoPrefab;
 	public AirObject rainPrefab;
 	public AirObject snowPrefab;
-
 	public LandObject sunflowerPrefab;
 	public LandObject eggplantPrefab;
 	public LandObject coniferPrefab;
 
+	private Dictionary<string, Object> prefabs;
 	private Biomass biomass;
 	private Airspace airspace;
 	private Hud hud;
+	private string levelName;
 
 	void Awake () 
 	{
+		prefabs = new Dictionary<string, Object>();
+		prefabs.Add("Tornado", tornadoPrefab);
+		prefabs.Add("Rain", rainPrefab);
+		prefabs.Add("Snow", snowPrefab);
+		prefabs.Add("Sunflower", sunflowerPrefab);
+		prefabs.Add("Eggplant", eggplantPrefab);
+		prefabs.Add("Conifer", coniferPrefab);
+
 		biomass = (Biomass) GameObject.FindGameObjectWithTag("biomass").GetComponent<Biomass>();
 		airspace = (Airspace) GameObject.FindGameObjectWithTag("airspace").GetComponent<Airspace>();
 		hud = (Hud) GameObject.FindGameObjectWithTag("hud").GetComponent<Hud>();
@@ -26,20 +36,21 @@ public class GameController : MonoBehaviour
 	
 	void Start () 
 	{
+		levelName = "Level1";
 		startLevel();
 	}
 
 	public void startLevel()
 	{
-		biomass.addObject(sunflowerPrefab, 0);
-		biomass.addObject(eggplantPrefab, 10);
-		biomass.addObject(coniferPrefab, 18);
-
-		airspace.addObject(tornadoPrefab, 230);
-		airspace.addObject(snowPrefab, 30);
-		airspace.addObject(rainPrefab, 160);
-
-		hud.start(5.0f); // 5 second clock
+		string levelPath = "/Levels/" + levelName;
+		Level level = GameObject.Find(levelPath).GetComponent<Level>();
+		if(level == null)
+			throw new UnityException("Cannot load level " + levelPath);
+		foreach(AirPlacement ap in level.airPlacements)
+			airspace.addObject((AirObject) prefabs[ap.airObject.ToString()], System.Convert.ToSingle(ap.angle));
+		foreach(LandPlacement lp in level.landPlacements)
+			biomass.addObject((LandObject) prefabs[lp.landObject.ToString()], System.Convert.ToInt16(lp.index));
+		hud.start(System.Convert.ToSingle(level.time));
 	}
 
 	public void onReset()
@@ -51,3 +62,5 @@ public class GameController : MonoBehaviour
 		startLevel();
 	}
 }
+
+
