@@ -3,10 +3,10 @@ using System.Collections;
 
 public class Level : MonoBehaviour 
 {
-	public AirPlacement[] airPlacements;
-	public LandPlacement[] landPlacements;
 	public string title = "Title";
 	public float time = 10.0f;
+	public AirPlacement[] airPlacements;
+	public LandPlacement[] landPlacements;
 }
 
 [System.Serializable]

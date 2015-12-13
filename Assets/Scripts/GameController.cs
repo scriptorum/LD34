@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour
 	private Biomass biomass;
 	private Airspace airspace;
 	private Hud hud;
-	private string levelName;
+	private LevelManager levelManager;
 
 	void Awake () 
 	{
@@ -32,20 +32,21 @@ public class GameController : MonoBehaviour
 		biomass = (Biomass) GameObject.FindGameObjectWithTag("biomass").GetComponent<Biomass>();
 		airspace = (Airspace) GameObject.FindGameObjectWithTag("airspace").GetComponent<Airspace>();
 		hud = (Hud) GameObject.FindGameObjectWithTag("hud").GetComponent<Hud>();
+		levelManager = (LevelManager) GameObject.Find("/Levels").GetComponent<LevelManager>();
 	}
 	
 	void Start () 
 	{
-		levelName = "Level1";
+		levelManager.current = 0;
 		startLevel();
 	}
 
 	public void startLevel()
 	{
-		string levelPath = "/Levels/" + levelName;
-		Level level = GameObject.Find(levelPath).GetComponent<Level>();
+		Level level = levelManager.levels[levelManager.current];
 		if(level == null)
-			throw new UnityException("Cannot load level " + levelPath);
+			throw new UnityException("Cannot load level " + levelManager.current);
+		
 		foreach(AirPlacement ap in level.airPlacements)
 			airspace.addObject((AirObject) prefabs[ap.airObject.ToString()], System.Convert.ToSingle(ap.angle));
 		foreach(LandPlacement lp in level.landPlacements)
