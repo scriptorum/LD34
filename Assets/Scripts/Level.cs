@@ -3,8 +3,10 @@ using System.Collections;
 
 public class Level : MonoBehaviour 
 {
-	public string title = "Title";
+	public string success = "You did it!";
+	public string message = "";
 	public float time = 10.0f;
+	public LevelFlag flag = LevelFlag.Default;
 	public AirPlacement[] airPlacements;
 	public LandPlacement[] landPlacements;
 }
@@ -16,12 +18,6 @@ public struct AirPlacement
 	public float angle;
 }
 
-public enum AirEnum
-{
-	Tornado,
-	Rain,
-	Snow
-}
 
 [System.Serializable]
 public struct LandPlacement
@@ -35,4 +31,18 @@ public enum LandEnum
 	Sunflower,
 	Eggplant,
 	Conifer
+}
+
+public enum AirEnum
+{
+	Tornado,
+	Rain,
+	Snow
+}
+
+public enum LevelFlag
+{
+	Default,
+	InputCheck,
+	IgnoreTime
 }

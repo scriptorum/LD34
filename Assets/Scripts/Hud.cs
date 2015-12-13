@@ -8,7 +8,7 @@ public class Hud : MonoBehaviour
 {
 	public float target = 0;
 	public float elapsed = 0;
-	public bool running = false;
+	public bool timerRunning = false;
 
 	private Text timerText;
 	private Text messageText;
@@ -23,30 +23,34 @@ public class Hud : MonoBehaviour
 
 	void Update()
 	{
-		if(!running)
+		if(!timerRunning)
 			return;
 		
 		elapsed += Time.deltaTime;
 		updateTimerText();
-
-		if(elapsed > target)
-			setMessage("Out of time! Hit R to restart level.");
 	}
 
-	public void start(float time)
+	public void startTimer(float time)
 	{
 		target = time;
 		elapsed = 0;
-		running = true;
+		timerRunning = true;
 		updateTimerText();
 		clearMessage();
+	}
+
+	public void stopTimer()
+	{
+		timerRunning = false;
+
+		updateTimerText();
 	}
 
 	public void reset()
 	{
 		elapsed = 0;
 		target = 0;
-		running = false;
+		timerRunning = false;
 		updateTimerText();
 		clearMessage();
 	}
@@ -66,12 +70,14 @@ public class Hud : MonoBehaviour
 		Color color = Color.white;
 		string text = "";
 
-		if(running && target > 0f)
+		if(target > 0f)
 		{
 			float t = target - elapsed;
 			text = String.Format("{0:0.00}", t);
 			if(t < 0)
 				color = Color.red;
+			else if (!timerRunning)
+				color = Color.green; // timer paused - use green, probably for victory
 		}
 			
 		timerText.text = text;

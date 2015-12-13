@@ -17,4 +17,9 @@ public class LandController : MonoBehaviour {
 	{
 		transform.Rotate(0, 0, -rotateSpeed * Time.deltaTime * e.axis.x);
 	}
+
+	public void reset()
+	{
+		transform.localRotation = Quaternion.identity;
+	}
 }

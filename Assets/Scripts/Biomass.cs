@@ -7,6 +7,7 @@ public class Biomass : MonoBehaviour
 	public int size = 32;
 
 	private LandObject[] contents;
+	private int contentCount = 0;
 
 	void Awake()
 	{
@@ -58,12 +59,18 @@ public class Biomass : MonoBehaviour
 		return result;
 	}
 
+	public bool isComplete()
+	{
+		return contentCount >= size;
+	}
+
 	public void addObject(LandObject prefab, int index)
 	{
 		if(contents[index] != null)
 			throw new UnityException("Cannot add a second plant to index " + index);
 
 		contents[index] = LandObject.create(this, prefab, index);
+		contentCount++;
 	}
 
 	public void reset()
@@ -76,5 +83,6 @@ public class Biomass : MonoBehaviour
 				contents[i] = null;
 			}
 		}
+		contentCount = 0;
 	}
 }
