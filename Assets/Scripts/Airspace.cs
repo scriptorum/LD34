@@ -19,11 +19,15 @@ public class Airspace : MonoBehaviour
 			float range = Mathf.Abs(angle - ao.angle);
 			if(range > 180) range = Mathf.Abs(range - 360);
 
-//			Debug.Log("Plot:" + angle + "@" + sizeInDegrees + " AO:" + ao.angle + "@" + ao.sizeInDegrees + " range:" + range + " sz+sz/2:" +
-//				((sizeInDegrees + ao.sizeInDegrees) / 2));
-
 			if(range < (sizeInDegrees + ao.sizeInDegrees) / 2) return ao;
 		}
 		return null;
+	}
+
+	public void reset()
+	{
+		foreach(AirObject ao in contents)
+			Destroy(ao.gameObject);
+		contents.Clear();
 	}
 }

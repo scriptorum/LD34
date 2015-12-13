@@ -6,11 +6,11 @@ public class Biomass : MonoBehaviour
 {
 	public int size = 32;
 
-	private LandObject[] plantObjects;
+	private LandObject[] contents;
 
 	void Awake()
 	{
-		plantObjects = new LandObject[size];
+		contents = new LandObject[size];
 	}
 
 	public bool propogate(LandObject lo)
@@ -18,7 +18,7 @@ public class Biomass : MonoBehaviour
 		if(lo.index < 0 || lo.index >= size)
 			return false;
 
-		if(plantObjects[lo.index] == null)
+		if(contents[lo.index] == null)
 			return false;
 
 		List<int> neighbors = getNeighbors(lo.index);
@@ -46,13 +46,13 @@ public class Biomass : MonoBehaviour
 		int leftIndex = index - 1;
 		if(leftIndex < 0)
 			leftIndex = size - 1;
-		if((plantObjects[leftIndex] == null) == empty)
+		if((contents[leftIndex] == null) == empty)
 			result.Add(leftIndex);
 
 		int rightIndex = index + 1;
 		if(rightIndex >= size)
 			rightIndex = 0;
-		if((plantObjects[rightIndex] == null) == empty)
+		if((contents[rightIndex] == null) == empty)
 			result.Add(rightIndex);
 
 		return result;
@@ -60,9 +60,21 @@ public class Biomass : MonoBehaviour
 
 	public void addObject(LandObject prefab, int index)
 	{
-		if(plantObjects[index] != null)
+		if(contents[index] != null)
 			throw new UnityException("Cannot add a second plant to index " + index);
 
-		plantObjects[index] = LandObject.create(this, prefab, index);
+		contents[index] = LandObject.create(this, prefab, index);
+	}
+
+	public void reset()
+	{
+		for(int i = 0; i < size; i++)
+		{
+			if(contents[i] != null)
+			{
+				Destroy(contents[i].gameObject);
+				contents[i] = null;
+			}
+		}
 	}
 }

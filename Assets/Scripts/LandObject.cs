@@ -18,7 +18,8 @@ public class LandObject : MonoBehaviour
 	[Header("Plant Data")]
 	public float health = 0; // need to track separate growth meter, as a plant could be both growing and dying
 	public float baseGrowth = 1.0f;
-	public float darkGrowth = 0.0f;
+	public float coldGrowth = 0.0f;
+	public float windGrowth = 0.0f;
 	public float wetGrowth = 0.0f;
 
 	[HideInInspector] public int index = -1;
@@ -77,7 +78,8 @@ public class LandObject : MonoBehaviour
 			return baseGrowth;
 
 		float growth = baseGrowth;
-		growth += (ao.isDark ? darkGrowth : 0f);
+		growth += (ao.isCold ? coldGrowth : 0f);
+		growth += (ao.isWindy ? windGrowth : 0f);
 		growth += (ao.isWet ? wetGrowth : 0f);
 
 		return growth;
@@ -95,10 +97,10 @@ public class LandObject : MonoBehaviour
 
 	public static LandObject create(Biomass biomass, LandObject prefab, int index)
 	{
-		// Note we need to use the biomasses initial rotation, as setting the parent causes Unity to 
-		// annoying change the localRotation so that it does not move upon parenting. But -- what if 
-		// want to set localRotation myself because I know what I'm doing? No, sorry, you can't do that.
-		// Really annoying. So I have to give it an initial rotation to match the world rotation.
+		// When instantiating a child object, it's important to pass the parent's initial position and
+		// rotation to it. When assigning the transform parent, Unity will assume you want to maintain 
+		// the worldspace transform, and adjust your local position/rotation to make that so. Even if
+		// that's not what you wanted. You son of a bitch.
 		LandObject lo = (LandObject) Instantiate(prefab, biomass.transform.position, biomass.transform.rotation);
 		lo.init(prefab, index);
 		return lo;
