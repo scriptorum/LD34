@@ -5,7 +5,7 @@ using Spewnity;
 public class GameController : MonoBehaviour 
 {
 	[Header("Prefabs")]
-	public AirObject cloudPrefab;
+	public AirObject tornadoPrefab;
 	public AirObject rainPrefab;
 	public AirObject snowPrefab;
 	public LandObject sunflowerPrefab;
@@ -25,7 +25,7 @@ public class GameController : MonoBehaviour
 		biomass.addObject(sunflowerPrefab, 10);
 		biomass.addObject(sunflowerPrefab, 18);
 
-		airspace.addObject(cloudPrefab, 230);
+		airspace.addObject(tornadoPrefab, 230);
 		airspace.addObject(snowPrefab, 30);
 		airspace.addObject(rainPrefab, 160);
 	}
