@@ -6,6 +6,7 @@ using Spewnity;
 
 public class Hud : MonoBehaviour 
 {
+	public AudioClip messageSnd;
 	public float target = 0;
 	public float elapsed = 0;
 	public bool timerRunning = false;
@@ -62,6 +63,9 @@ public class Hud : MonoBehaviour
 
 	public void setMessage(string msg)
 	{
+		if(msg != "" && msg != messageText.text)
+			SoundManager.instance.RandomizeSfx(messageSnd);
+
 		messageText.text = msg;
 	}
 

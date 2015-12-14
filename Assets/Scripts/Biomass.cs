@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Spewnity;
 
 public class Biomass : MonoBehaviour
 {
 	public int size = 32;
+	public AudioClip spawnSnd;
 
 	private LandObject[] contents;
 	private int contentCount = 0;
@@ -71,6 +73,8 @@ public class Biomass : MonoBehaviour
 
 		contents[index] = LandObject.create(this, prefab, index);
 		contentCount++;
+
+		SoundManager.instance.RandomizeSfx(spawnSnd);
 	}
 
 	public void reset()

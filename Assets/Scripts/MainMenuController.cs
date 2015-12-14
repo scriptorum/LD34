@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Spewnity;
 
 public class MainMenuController : MonoBehaviour
 {
+	public AudioClip introMusic;
+
 	private static float SMALL = 1.5f;
 	private static float LARGE = 1.51f;
 	private static float ROTSPEED = 10f;
